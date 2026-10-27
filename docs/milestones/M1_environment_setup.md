@@ -1,9 +1,9 @@
 # Milestone 1 — CPU-Only Development Environment
 
-**Project:** Industrial RAG Copilot  
-**Milestone:** M1 — Foundation (GitHub Issue [#1](https://github.com/hafizshah101-code/industrial-rag-copilot/issues/1))  
-**Status:** Completed — Issue #1 closed  
-**Date:** 28 October 2026 (Malaysia time)  
+**Project:** Industrial RAG Copilot
+**Milestone:** M1 — Foundation (GitHub Issue [#1](https://github.com/hafizshah101-code/industrial-rag-copilot/issues/1))
+**Status:** Completed — Issue #1 closed
+**Date:** 28 October 2026 (Malaysia time)
 **Scope:** Windows laptop development environment; no RAG ingestion or model inference yet.
 
 ## Objective
