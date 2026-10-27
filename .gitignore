@@ -1,0 +1,46 @@
+# Local documents and sensitive outputs
+data/**
+!data/.gitkeep
+*.pdf
+*.PDF
+*.docx
+*.xlsx
+*.csv
+*.sqlite
+*.sqlite3
+*.db
+*.parquet
+*.gguf
+*.safetensors
+*.onnx
+*.pt
+qdrant_storage/
+artifacts/
+outputs/
+logs/
+# Credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+secrets/
+credentials/
+# Python and editors
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
