@@ -1,5 +1,12 @@
 # Milestone 2 — PDF Inspection and Page Provenance
 
+> **Closure note (13 November 2026).** This milestone was merged into `main` through
+> [PR #13](https://github.com/hafizshah101-code/industrial-rag-copilot/pull/13) as merge commit
+> [`1007af4`](https://github.com/hafizshah101-code/industrial-rag-copilot/commit/1007af4cecc9f54f9783d102ea729ff9417eef38),
+> which preserves the SSH-signed feature commit `053f61b` as a parent. Issue #2 is closed with
+> reason `completed`. The body below is the **pre-merge record** and is kept unchanged as the
+> historical evidence trail; the status line in it describes the moment before staging.
+
 **Issue:** [#2](https://github.com/hafizshah101-code/industrial-rag-copilot/issues/2) (stays open until review, approval, signed commit and merge)
 **Branch:** `feature/issue-2-pdf-inspection` (HEAD `bb2c7ba`, no upstream, worktree holds the work below as untracked files)
 **Status:** implemented and verified locally; OSJ independent source review of rev2 **PASSED** (FIX-01 and FIX-02 accepted, marker OSJ-ISSUE2-REV2-CODE-REVIEW-PASS), with the documentation correction in this revision. **Awaiting Shah's authorization to stage the seven approved files.** Nothing has been committed, pushed, merged, deployed or opened as a pull request, and Issue #2 remains open.
