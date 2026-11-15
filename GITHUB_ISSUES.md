@@ -6,7 +6,7 @@ Offline index of the learning milestones. Issue **numbers are stable** and are r
 |---|---|---|---|
 | M1 — CPU-only development environment | [#1](https://github.com/hafizshah101-code/industrial-rag-copilot/issues/1) | [M1] Set up a reproducible CPU-only development environment | Closed |
 | M2 — PDF inspection and page provenance | [#2](https://github.com/hafizshah101-code/industrial-rag-copilot/issues/2) | [M1] Build PDF inspection and page-provenance extraction | Closed |
-| M3 — Chunking strategies | [#3](https://github.com/hafizshah101-code/industrial-rag-copilot/issues/3) | [M3] Implement and Compare Chunking Strategies | Open (current) |
+| M3 — Chunking strategies | [#3](https://github.com/hafizshah101-code/industrial-rag-copilot/issues/3) | [M3] Implement and Compare Chunking Strategies | Delivered in PR #14 (issue open until closure) |
 | M4 — CPU embeddings and semantic retrieval | [#4](https://github.com/hafizshah101-code/industrial-rag-copilot/issues/4) | [M4] Implement CPU Embeddings and Semantic Retrieval | Open |
 | M5 — BM25, filters and hybrid retrieval | [#5](https://github.com/hafizshah101-code/industrial-rag-copilot/issues/5) | [M3] Add BM25, filters and hybrid search benchmarks | Open |
 | M6 — Grounded answers, citations and abstention | [#6](https://github.com/hafizshah101-code/industrial-rag-copilot/issues/6) | [M4] Build grounded answers with citations and abstention | Open |

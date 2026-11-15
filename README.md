@@ -2,7 +2,7 @@
 
 > CPU-first Retrieval-Augmented Generation for evidence-grounded industrial technical documentation.
 
-**Status (13 November 2026):** the ingestion foundation is implemented. **M1** (CPU-only development environment) and **M2** (PDF inspection with page provenance) are complete, tested and merged into `main`. **M3** (chunking) is in progress. Embeddings, retrieval, grounded generation and the local API are **not** implemented yet.
+**Status (16 November 2026):** the ingestion and chunking foundations are implemented. **M1** (CPU-only development environment), **M2** (PDF inspection with page provenance) and **M3** (page-aware chunking) are complete, tested and merged into `main`. M3 landed through [PR #14](https://github.com/hafizshah101-code/industrial-rag-copilot/pull/14) and is recorded in [`docs/milestones/M3_chunking.md`](docs/milestones/M3_chunking.md). Embeddings, retrieval, grounded generation and the local API are **not** implemented yet.
 
 ## What works today
 
@@ -20,6 +20,9 @@ py -3.12 -m venv .venv
 
 # write the structured result to a file
 .\.venv\Scripts\python.exe scripts\inspect_pdf.py data\your-manual.pdf --output data\inspection.json
+
+# chunk one local PDF and print a per-document summary
+.\.venv\Scripts\python.exe scripts\chunk_pdf.py data\your-manual.pdf --strategy section_aware --summary
 
 # quality gates
 .\.venv\Scripts\python.exe -m pytest -q
@@ -39,6 +42,8 @@ A password is never accepted as a command-line argument, so it cannot leak into 
 
 **Last recorded local run (13 November 2026, this laptop):** `pytest -q` → 63 passed (3 environment checks + 60 inspector cases); `ruff check` → clean; `ruff format --check` → 13 files formatted. These numbers come from a local terminal, **not** from CI — automated CI is milestone M9 and is not configured.
 
+**Most recent recorded local run (16 November 2026, this laptop):** `pytest -q` → 154 passed (3 environment checks + 60 inspector cases + 91 chunking cases); `ruff check` → clean; `ruff format --check` → 23 files formatted. This is again a local terminal result, **not** a CI result: no workflow is configured, so no CI status exists to report.
+
 ## Implemented versus planned
 
 | Area | State | Reference |
@@ -46,7 +51,7 @@ A password is never accepted as a command-line argument, so it cannot leak into 
 | CPU-only Python environment, pinned dev tools, SSH-signed commits | Implemented (M1) | `docs/milestones/M1_environment_setup.md` |
 | PDF validation, streaming SHA256 document id, page-level text with provenance, heuristic page classification, OCR candidates, table/diagram indicators | Implemented (M2) | `docs/ingestion/pdf_inspection.md` |
 | CLI inspector with JSON output and interactive password prompt | Implemented (M2) | `scripts/inspect_pdf.py` |
-| Fixed-token-estimate and section-aware chunking | In progress (M3) | GitHub issue #3 |
+| Fixed-token-estimate and section-aware chunking with page and section provenance | Implemented (M3, merged in PR #14) | `docs/ingestion/chunking.md`, `docs/milestones/M3_chunking.md` |
 | CPU embeddings, semantic retrieval | Planned (M4) | GitHub issue #4 |
 | BM25, metadata filters, hybrid retrieval benchmarking | Planned (M5) | GitHub issue #5 |
 | Grounded answers with citations and abstention | Planned (M6) | GitHub issue #6 |
@@ -58,17 +63,15 @@ No cloud service, embedding API, LLM or OCR engine is called by the implemented 
 
 ## Architecture
 
-`IMPLEMENTED` marks what M1–M2 delivered and what runs today. `CURRENT` marks M3 work in progress: designed and under review, not merged, so it cannot be used yet. `PLANNED` marks future capabilities, which are design intent only.
+`IMPLEMENTED` marks what M1–M3 delivered and what runs today. `PLANNED` marks future capabilities, which are design intent only.
 
 ```mermaid
 flowchart TD
 A[Authorized local PDF] --> B[PyMuPDF inspection<br/>validation + streaming SHA256]
 B --> C[Page-level text + provenance<br/>page index/number, warnings]
-subgraph IMPLEMENTED[M1–M2 implemented]
+subgraph IMPLEMENTED[M1–M3 implemented]
 B
 C
-end
-subgraph CURRENT[M3 in progress]
 D[Chunking<br/>fixed-token baseline + section-aware]
 end
 C --> D
@@ -99,7 +102,7 @@ Every extracted page keeps a zero-based `page_index` and a one-based `page_numbe
 
 ```
 app/ingestion/      PDF inspection module (M2)
-app/chunking/       planned for M3 - the directory does not exist yet
+app/chunking/       chunking strategies with page and section provenance (M3)
 scripts/            command-line entry points
 tests/              pytest suites (synthetic fixtures only)
 docs/               architecture, roadmap, policies, module and milestone reports

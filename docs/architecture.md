@@ -9,7 +9,7 @@ An educational, single-user industrial-document RAG prototype for a Windows lapt
 | Stage | State | Notes |
 |---|---|---|
 | PDF inspection, checksum, page text, provenance | **Implemented (M2)** | `app/ingestion/pdf_inspector.py` |
-| Chunking with page and section provenance | **In progress (M3)** | design reviewed; implementation not merged |
+| Chunking with page and section provenance | **Implemented (M3)** | `app/chunking/chunker.py`; merged in PR #14 |
 | CPU embeddings, vector index, metadata store | Planned (M4) | Qdrant and SQLite not installed |
 | BM25, filters, hybrid ranking | Planned (M5) | — |
 | Grounded answers, citations, abstention | Planned (M6) | no LLM is called today |
@@ -20,9 +20,9 @@ An educational, single-user industrial-document RAG prototype for a Windows lapt
 ## Ingestion pipeline
 
 1. **Inspect a locally authorized PDF (implemented in M2).** Validate the file, compute a streaming SHA256 over the original bytes, and read page count. The checksum becomes `document_id` (`sha256:<hex>`). Page provenance — zero-based `page_index`, one-based `page_number`, character counts and warnings — is produced in the same step.
-   **Implemented in M2:** document checksum and page provenance only. **Not implemented in M2:** equipment model and revision metadata. They are *proposed for M3* as operator-supplied input fields, recorded together with their source and defaulting to `null`; M2 neither extracts nor guesses them from document text.
+   **Implemented in M2:** document checksum and page provenance only. **Not implemented in M2:** equipment model and revision metadata. **M3 accepts both, but only as operator-supplied input** (`scripts/chunk_pdf.py --equipment-model/--revision`), publishing them as `{"value": ..., "source": "operator"}` and defaulting to `{"value": null, "source": "unknown"}` when absent. **Automatic extraction of either field from the document text is not implemented in M2 or M3** — neither milestone infers a model or revision from the PDF.
 2. **Extract page-aware text (implemented).** PyMuPDF returns text per page together with a zero-based `page_index`, a one-based `page_number`, character counts, a heuristic page classification, an independent OCR-candidate flag, visible-image/vector/table indicators and per-page warnings. Comparison with a layout engine such as Docling remains a later experiment.
-3. **Chunk with provenance (M3, in progress).** Fixed-token-estimate baseline plus section-aware chunking; every chunk carries the document id, section path, heading, page span and deterministic id.
+3. **Chunk with provenance (implemented in M3).** Fixed-token-estimate baseline plus section-aware chunking; every chunk carries the document id, section path, heading, page span and deterministic id. Bucketing is decided text-first, so a page with extracted text stays `covered` even when M2 flagged it as an OCR candidate. See `docs/ingestion/chunking.md` and `docs/milestones/M3_chunking.md`.
 4. **Generate CPU embeddings and index them (planned, M4).** Compact local embedding model; Qdrant for vectors; SQLite for document and chunk metadata; re-indexing must be idempotent and must not mix document revisions.
 5. **Preserve provenance end to end (partially implemented).** Page numbers already travel with the extracted text; later stages must carry them into chunks, retrieval hits and answers.
 
